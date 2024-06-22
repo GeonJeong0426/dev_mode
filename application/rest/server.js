@@ -10,31 +10,40 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/init', function (req, res) {
    let a = req.query.a;
-   let aval = req.query.aval;
-   let args = [a, aval];
+   let args = [a];
    sdk.send(false, 'init', args, res);
 });
 
 app.get('/delete', function (req, res) {
-    let name = req.query.name;
-    let args = [name];
-    sdk.send(false, 'delete', args, res);
- });
- 
- 
- app.get('/invoke', function (req, res) {
-    let sender = req.query.sender;
-    let receiver = req.query.receiver;
-    let amount = req.query.amount;
-    let args = [sender, receiver, amount];
-    sdk.send(false, 'invoke', args, res);
- });
- 
- app.get('/query', function (req, res) {
-    let name = req.query.name;
-    let args = [name];
-    sdk.send(true, 'query', args, res);
- });
+   let name = req.query.name;
+   let args = [name];
+   sdk.send(false, 'delete', args, res);
+});
+app.get('/gift', function (req, res) {
+   let sender = req.query.sender;
+   let receiver = req.query.receiver;
+   let amount = req.query.amount;
+   let args = [sender, receiver, amount];
+   sdk.send(false, 'gift', args, res);
+});
+app.get('/query', function (req, res) {
+   let name = req.query.name;
+   let args = [name];
+   sdk.send(true, 'query', args, res);
+});
+app.get('/payment', function (req, res) {
+   let user = req.query.user;
+   let amount = req.query.amount;
+   let pointsToUse = req.query.pointsToUse;
+   let args = [user, amount, pointsToUse];
+   sdk.send(false, 'payment', args, res);
+});
+
+app.get('/lotto', function (req, res) {
+   let user = req.query.user;
+   let args = [user];
+   sdk.send(false, 'lotto', args, res);
+});
  
 
 app.use(express.static(path.join(__dirname, '../client')));

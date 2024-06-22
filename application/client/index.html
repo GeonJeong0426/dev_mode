@@ -42,10 +42,10 @@
         <h5 style="color:green;margin-bottom:2%" id="success_init">{{init_ab}}</h5>
         <br>
         A: <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
-        A Value: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore.aval">
         <input id="initAB" type="submit" value="Create" class="btn btn-primary" ng-click="initAB()">
       </div>
       <hr>
+
       <div class="form-group">
         <h5 style="color:green;margin-bottom:2%" id="success_qurey">{{query_ab}}</h5>
         <label>Query</label>
@@ -54,13 +54,43 @@
       </div>
 
       <div class="form-group">
-        <label>transfer</label>
-        <h5 style="color:green;margin-bottom:2%" id="success_invoke">{{invoke_ab}}</h5>
+        <h5 style="color:green;margin-bottom:2%" id="success_qurey_admin">{{query_admin}}</h5>
+        <label>Admin</label>
+        <p><input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryAdmin()"></p>
+      </div>
+
+      <div class="form-group">
+        <h5 style="color:green;margin-bottom:2%" id="success_qurey_lotto">{{query_lotto}}</h5>
+        <label>Lotto</label>
+        <p><input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryLotto()"></p>
+      </div>
+
+      <div class="form-group">
+        <label>Payment</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_payment">{{payment_ab}}</h5>
+        <br>
+        Me: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore2.user">
+        가격: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore2.pay">
+        사용할 포인트: <input class="form-control" type="text" placeholder="Ex: 0" ng-model="abstore2.point">
+        <input id="PaymentAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="PaymentAB()">
+      </div>
+
+      <div class="form-group">
+        <label>Gift</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_gift">{{gift_ab}}</h5>
         <br>
         A: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore2.a">
         B: <input class="form-control" type="text" placeholder="Ex: B" ng-model="abstore2.b">
         Amount: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore2.amount">
-        <input id="invokeAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="invokeAB()">
+        <input id="giftAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="giftAB()">
+      </div>
+
+      <div class="form-group">
+        <label>Lotto</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_lotto">{{lotto_ab}}</h5>
+        <br>
+        Me: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore2.userLotto">
+        <input id="lottoAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="lottoAB()">
       </div>
 
       <div class="form-group">
@@ -70,11 +100,7 @@
         <input id="deleteAB" type="submit" value="Delete" class="btn btn-primary" ng-click="deleteAB()"></p>
       </div>
 
-      <div class="form-group">
-        <h5 style="color:green;margin-bottom:2%" id="success_qurey_admin">{{query_admin}}</h5>
-        <label>Admin</label>
-        <p><input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryAdmin()"></p>
-      </div>
+      
 
     </div>
   </body>
