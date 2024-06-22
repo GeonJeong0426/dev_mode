@@ -106,7 +106,7 @@ app.factory('appFactory', function($http){
         });
     }
     factory.lottoAB = function(args, callback){
-        let user = args.a;
+        let user = args.userLotto;
         $http.get('/lotto?user=' + user).success(function(output){
             callback(output);
         });
