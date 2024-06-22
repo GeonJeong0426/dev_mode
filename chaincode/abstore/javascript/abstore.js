@@ -62,6 +62,52 @@ const ABstore = class {
     let A = args[0];
     await stub.putState(A, Buffer.from("5000"));
   }
+  //-----------------------------------------------------------------------------------recommender
+  async recommender(stub, args) {
+    if (args.length != 2) {
+      throw new Error('Incorrect number of arguments. Expecting 2');
+    }
+  
+    let Me = args[0];
+    let Recommender = args[1];
+  
+    if (!Recommender || !Me) {
+      throw new Error('Asset holding must not be empty');
+    }
+  
+    // Fetch the state for 'Me'
+    let Mevalbytes = await stub.getState(Me);
+    if (!Mevalbytes) {
+      throw new Error('Failed to get state of asset holder Me');
+    }
+    let Meval = parseInt(Mevalbytes.toString());
+  
+    // Check if Me has already recommended someone
+    let MeRecommendKey = 'recommended_by_' + Me;
+    let MeRecommendBytes = await stub.getState(MeRecommendKey);
+    if (MeRecommendBytes && MeRecommendBytes.length > 0) {
+      throw new Error('This user has already recommended someone.');
+    }
+  
+    // Fetch the state for 'Recommender'
+    let Recommendervalbytes = await stub.getState(Recommender);
+    if (!Recommendervalbytes) {
+      throw new Error('Failed to get state of asset holder Recommender');
+    }
+    let Recommenderval = parseInt(Recommendervalbytes.toString());
+  
+    // Update the balances
+    Meval += 500;
+    Recommenderval += 1000;
+  
+    // Store the updated balances
+    await stub.putState(Me, Buffer.from(Meval.toString()));
+    await stub.putState(Recommender, Buffer.from(Recommenderval.toString()));
+  
+    // Store the information that Me has recommended someone
+    await stub.putState(MeRecommendKey, Buffer.from(Recommender));
+  }
+
 //-----------------------------------------------------------------------------------포인트 거래
   // invoke 함수는 자산 이전을 담당
   async gift(stub, args) {
@@ -147,32 +193,32 @@ const ABstore = class {
     await stub.deleteState(A);
   }
 //-----------------------------------------------------------------------------------조회(전체조회로 수정해야함)
-  async query(stub, args) {
-    if (args.length != 1) {
-      throw new Error('Incorrect number of arguments. Expecting name of the person to query');
-    }
+  // async query(stub, args) {
+  //   if (args.length != 1) {
+  //     throw new Error('Incorrect number of arguments. Expecting name of the person to query');
+  //   }
 
-    let jsonResp = {};
-    let A = args[0];
+  //   let jsonResp = {};
+  //   let A = args[0];
 
-    try {
-      let Avalbytes = await stub.getState(A);
-      if (!Avalbytes || Avalbytes.length === 0) {
-        jsonResp.error = 'Failed to get state for ' + A;
-        throw new Error(JSON.stringify(jsonResp));
-      }
+  //   try {
+  //     let Avalbytes = await stub.getState(A);
+  //     if (!Avalbytes || Avalbytes.length === 0) {
+  //       jsonResp.error = 'Failed to get state for ' + A;
+  //       throw new Error(JSON.stringify(jsonResp));
+  //     }
 
-      jsonResp.name = A;
-      jsonResp.amount = Avalbytes.toString('utf8');
-      console.info('Query Response:');
-      console.info(jsonResp);
+  //     jsonResp.name = A;
+  //     jsonResp.amount = Avalbytes.toString('utf8');
+  //     console.info('Query Response:');
+  //     console.info(jsonResp);
 
-      return Buffer.from(JSON.stringify(jsonResp));
-    } catch (err) {
-      console.error('Error in query:', err);
-      throw new Error('Error in query function: ' + err.message);
-    }
-  }
+  //     return Buffer.from(JSON.stringify(jsonResp));
+  //   } catch (err) {
+  //     console.error('Error in query:', err);
+  //     throw new Error('Error in query function: ' + err.message);
+  //   }
+  // }
     //-----------------------------------------------------------------------------------결제
   async payment(stub, args) {
     if (args.length != 3) {

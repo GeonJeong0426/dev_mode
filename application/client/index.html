@@ -41,12 +41,32 @@
         <label>Init</label>
         <h5 style="color:green;margin-bottom:2%" id="success_init">{{init_ab}}</h5>
         <br>
-        <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
+        ID: <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
         <input id="initAB" type="submit" value="Create" class="btn btn-primary" ng-click="initAB()">
+      </div>
+
+      <div class="form-group">
+        <label>Recommender</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_recommender">{{recommender_ab}}</h5>
+        <br>
+        Me: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore.me">
+        Recommender: <input class="form-control" type="text" placeholder="Ex: B" ng-model="abstore.recommender">
+        <input id="recommenderAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="recommenderAB()">
       </div>
       <hr>
 
       <div class="form-group">
+        <label>Query All</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_query_all">Query Results:</h5>
+        <ul>
+            <li ng-repeat="item in query_all">
+                <strong>{{item.Key}}:</strong> {{item.Record}}
+            </li>
+        </ul>
+        <br>
+        <input id="queryAll" type="submit" value="Invoke" class="btn btn-primary" ng-click="queryAll()">
+      </div>
+      <!-- <div class="form-group">
         <h5 style="color:green;margin-bottom:2%" id="success_qurey">{{query_ab}}</h5>
         <label>Query</label>
         <p><input class="form-control" type="text" placeholder="Ex: A" ng-model="walletid">
@@ -63,7 +83,7 @@
         <h5 style="color:green;margin-bottom:2%" id="success_qurey_lotto">{{query_lotto}}</h5>
         <label>Lotto</label>
         <p><input id="queryAB" type="submit" value="Search" class="btn btn-primary" ng-click="queryLotto()"></p>
-      </div>
+      </div> -->
 
       <div class="form-group">
         <label>Payment</label>
@@ -106,17 +126,7 @@
         <input id="deleteAB" type="submit" value="Delete" class="btn btn-primary" ng-click="deleteAB()"></p>
       </div>
 
-      <div class="form-group">
-        <label>Query All</label>
-        <h5 style="color:green;margin-bottom:2%" id="success_query_all">Query Results:</h5>
-        <ul>
-            <li ng-repeat="item in query_all">
-                <strong>{{item.Key}}:</strong> {{item.Record}}
-            </li>
-        </ul>
-        <br>
-        <input id="queryAll" type="submit" value="Invoke" class="btn btn-primary" ng-click="queryAll()">
-      </div>
+      
     
 
     </div>

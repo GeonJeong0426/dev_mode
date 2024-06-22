@@ -13,6 +13,12 @@ app.get('/init', function (req, res) {
    let args = [a];
    sdk.send(false, 'init', args, res);
 });
+app.get('/recommender', function (req, res) {
+   let me = req.query.me;
+   let recommender = req.query.recommender;
+   let args = [me, recommender];
+   sdk.send(false, 'recommender', args, res);
+});
 
 app.get('/delete', function (req, res) {
    let name = req.query.name;
@@ -26,11 +32,11 @@ app.get('/gift', function (req, res) {
    let args = [sender, receiver, amount];
    sdk.send(false, 'gift', args, res);
 });
-app.get('/query', function (req, res) {
-   let name = req.query.name;
-   let args = [name];
-   sdk.send(true, 'query', args, res);
-});
+// app.get('/query', function (req, res) {
+//    let name = req.query.name;
+//    let args = [name];
+//    sdk.send(true, 'query', args, res);
+// });
 app.get('/payment', function (req, res) {
    let user = req.query.user;
    let amount = req.query.amount;
@@ -49,7 +55,7 @@ app.get('/lotto', function (req, res) {
    }
 });
 app.get('/drawLotto', function (req, res) {
-   sdk.send(false, 'drawLotto', [], res);
+    sdk.send(false, 'drawLotto', [], res);
 });
 app.get('/queryAll', function (req, res) {
    sdk.send(false, 'query', [], res);
