@@ -41,7 +41,7 @@
         <label>Init</label>
         <h5 style="color:green;margin-bottom:2%" id="success_init">{{init_ab}}</h5>
         <br>
-        A: <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
+        <input class="form-control" type="text" placeholder="Ex: Hyper" ng-model="abstore.a">
         <input id="initAB" type="submit" value="Create" class="btn btn-primary" ng-click="initAB()">
       </div>
       <hr>
@@ -72,7 +72,7 @@
         Me: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore2.user">
         가격: <input class="form-control" type="text" placeholder="Ex: 100" ng-model="abstore2.pay">
         사용할 포인트: <input class="form-control" type="text" placeholder="Ex: 0" ng-model="abstore2.point">
-        <input id="PaymentAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="PaymentAB()">
+        <input id="PaymentAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="paymentAB()">
       </div>
 
       <div class="form-group">
@@ -92,6 +92,12 @@
         Me: <input class="form-control" type="text" placeholder="Ex: A" ng-model="abstore2.userLotto">
         <input id="lottoAB" type="submit" value="Invoke" class="btn btn-primary" ng-click="lottoAB()">
       </div>
+      <div class="form-group">
+        <label>Draw Lotto</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_draw_lotto">{{draw_lotto}}</h5>
+        <br>
+        <input id="drawLotto" type="submit" value="Draw" class="btn btn-primary" ng-click="drawLotto()">
+    </div>
 
       <div class="form-group">
         <h5 style="color:green;margin-bottom:2%" id="success_delete">{{delete_ab}}</h5>
@@ -100,7 +106,18 @@
         <input id="deleteAB" type="submit" value="Delete" class="btn btn-primary" ng-click="deleteAB()"></p>
       </div>
 
-      
+      <div class="form-group">
+        <label>Query All</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_query_all">Query Results:</h5>
+        <ul>
+            <li ng-repeat="item in query_all">
+                <strong>{{item.Key}}:</strong> {{item.Record}}
+            </li>
+        </ul>
+        <br>
+        <input id="queryAll" type="submit" value="Invoke" class="btn btn-primary" ng-click="queryAll()">
+      </div>
+    
 
     </div>
   </body>

@@ -12,6 +12,8 @@ app.controller('AppCtrl', function($scope, appFactory){
    $("#success_gift").hide();
    $("#success_payment").hide();
    $("#success_lotto").hide();
+   $("#success_query_all").hide();
+   $("#success_draw_lotto").hide();
 
    $scope.initAB = function(){
        appFactory.initAB($scope.abstore, function(data){
@@ -68,7 +70,20 @@ app.controller('AppCtrl', function($scope, appFactory){
             $("#success_lotto").show();
         });
     }
+    $scope.drawLotto = function() {
+        appFactory.drawLotto(function(data) {
+            $scope.draw_lotto = data;
+            $("#success_draw_lotto").show();
+        });
+    };
+    $scope.queryAll = function() {
+        appFactory.queryAll(function(data) {
+            $scope.query_all = JSON.parse(data);
+            $("#success_query_all").show();
+        });
+    };    
 });
+
 app.factory('appFactory', function($http){
       
     var factory = {};
@@ -109,8 +124,24 @@ app.factory('appFactory', function($http){
         let user = args.userLotto;
         $http.get('/lotto?user=' + user).success(function(output){
             callback(output);
+        }).error(function(error){
+            callback('Error: ' + error);
         });
     }
+    factory.drawLotto = function(callback) {
+        $http.get('/drawLotto').success(function(output) {
+            callback(output);
+        }).error(function(error) {
+            callback('Error: ' + error);
+        });
+    };
+    factory.queryAll = function(callback){
+        $http.get('/queryAll').success(function(output){
+            callback(output);
+        }).error(function(error){
+            callback('Error: ' + error);
+        });
+    };
     return factory;
  });
  

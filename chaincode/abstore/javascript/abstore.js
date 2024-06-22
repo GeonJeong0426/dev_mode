@@ -60,7 +60,7 @@ const ABstore = class {
 
     // 첫 번째 인자를 자산 소유자 A로 설정
     let A = args[0];
-    await stub.putState(userID, Buffer.from("5000"));
+    await stub.putState(A, Buffer.from("5000"));
   }
 //-----------------------------------------------------------------------------------포인트 거래
   // invoke 함수는 자산 이전을 담당
@@ -117,16 +117,16 @@ const ABstore = class {
     }
 
     // 자산 소유자 A의 자산 감소
-    Aval = Aval - amount;
+    Aval -= amount;
     // 자산 소유자 B의 자산 증가 (수수료 제외)
-    Bval = Bval + amount - ( amount / 5 );
+    Bval += amount - ( amount * 0.05 );
     // 관리자 자산 증가 (수수료)
-    AdminVal = AdminVal + ( amount / 5 );
+    AdminVal += ( amount * 0.05 );
     // 자산 상태 로그 출력
     console.info(util.format('Aval = %d, Bval = %d, AdminVal = %d\n', Aval, Bval, AdminVal));
 
     // 자산 소유자 A의 상태 업데이트
-    await stub.putState(A, Buffer.from(A.toString()));
+    await stub.putState(A, Buffer.from(Aval.toString()));
     // 자산 소유자 B의 상태 업데이트
     await stub.putState(B, Buffer.from(Bval.toString()));
     // 관리자 상태 업데이트
@@ -147,74 +147,33 @@ const ABstore = class {
     await stub.deleteState(A);
   }
 //-----------------------------------------------------------------------------------조회(전체조회로 수정해야함)
-async query(stub, args) {
-  if (args.length != 1) {
-    throw new Error('Incorrect number of arguments. Expecting name of the person to query');
+  async query(stub, args) {
+    if (args.length != 1) {
+      throw new Error('Incorrect number of arguments. Expecting name of the person to query');
+    }
+
+    let jsonResp = {};
+    let A = args[0];
+
+    try {
+      let Avalbytes = await stub.getState(A);
+      if (!Avalbytes || Avalbytes.length === 0) {
+        jsonResp.error = 'Failed to get state for ' + A;
+        throw new Error(JSON.stringify(jsonResp));
+      }
+
+      jsonResp.name = A;
+      jsonResp.amount = Avalbytes.toString('utf8');
+      console.info('Query Response:');
+      console.info(jsonResp);
+
+      return Buffer.from(JSON.stringify(jsonResp));
+    } catch (err) {
+      console.error('Error in query:', err);
+      throw new Error('Error in query function: ' + err.message);
+    }
   }
-
-  let jsonResp = {};
-  let A = args[0];
-
-  let Avalbytes = await stub.getState(A);
-  if (!Avalbytes) {
-    jsonResp.error = 'Failed to get state for ' + A;
-    throw new Error(JSON.stringify(jsonResp));
-  }
-
-  jsonResp.name = A;
-  jsonResp.amount = Avalbytes.toString();
-  console.info('Query Response:');
-  console.info(jsonResp);
-  return Avalbytes;
-}
-  // async queryAll(stub) {
-  //   // JSON 응답 객체 생성
-  //   let jsonResp = {};
-  
-  //   // 모든 상태를 가져오기 위해 빈 문자열로 시작하고 끝을 설정
-  //   let startKey = '';
-  //   let endKey = '';
-  
-  //   // 범위 내 모든 상태를 가져옴
-  //   let iterator = await stub.getStateByRange(startKey, endKey);
-    
-  //   // 결과를 저장할 배열
-  //   let allResults = [];
-  //   while (true) {
-  //     let res = await iterator.next();
-      
-  //     if (res.value && res.value.value.toString()) {
-  //       // 상태 객체를 생성
-  //       let jsonRes = {};
-  //       jsonRes.key = res.value.key;
-  //       try {
-  //         // 값이 JSON 형태이면 파싱
-  //         jsonRes.value = JSON.parse(res.value.value.toString('utf8'));
-  //       } catch (err) {
-  //         // JSON 형태가 아니면 문자열로 저장
-  //         jsonRes.value = res.value.value.toString('utf8');
-  //       }
-  //       // 결과 배열에 추가
-  //       allResults.push(jsonRes);
-  //     }
-  //     if (res.done) {
-  //       // 반복기 종료
-  //       await iterator.close();
-  //       break;
-  //     }
-  //   }
-  
-  //   // 전체 결과를 JSON 응답 객체에 설정
-  //   jsonResp.results = allResults;
-    
-  //   // 조회 응답 로그 출력
-  //   console.info('QueryAll Response:');
-  //   console.info(jsonResp);
-    
-  //   // JSON 응답 객체 반환
-  //   return Buffer.from(JSON.stringify(jsonResp));
-  // }
-  //-----------------------------------------------------------------------------------결제
+    //-----------------------------------------------------------------------------------결제
   async payment(stub, args) {
     if (args.length != 3) {
       throw new Error('Incorrect number of arguments. Expecting 3');
@@ -254,58 +213,125 @@ async query(stub, args) {
   
     console.info(util.format('Aval = %d, AdminVal = %d\n', Aval, AdminVal));
   
-    await stub.putState(A, Buffer.from(A.toString()));
+    await stub.putState(A, Buffer.from(Aval.toString()));
     await stub.putState(Admin, Buffer.from(AdminVal.toString()));
   }
-//-----------------------------------------------------------------------------------로또(추첨추가해야함)
+  //-----------------------------------------------------------------------------------로또(추첨추가해야함)
   async lotto(stub, args) {
-    // 인자 개수가 3개가 아니면 오류 발생
     if (args.length != 1) {
-      throw new Error('Incorrect number of arguments. Expecting 3');
+      throw new Error('Incorrect number of arguments. Expecting 1');
     }
-  
-    // 첫 번째 인자를 자산 소유자 A로 설정
+
     let A = args[0];
-    // 관리자 키 설정
     let Lotto = "lotto";
-    // 자산 소유자 A 또는 B가 비어있으면 오류 발생
     if (!A) {
       throw new Error('Invalid arguments');
     }
-  
-    // 자산 소유자 A의 상태를 가져옴
+
     let Avalbytes = await stub.getState(A);
-    // 자산 소유자 A의 상태가 없으면 오류 발생
-    if (!Avalbytes) {
+    if (!Avalbytes || Avalbytes.length === 0) {
       throw new Error('Failed to get state of asset holder A');
     }
-    // 자산 소유자 A의 값을 정수로 변환
     let Aval = parseInt(Avalbytes.toString());
-  
-    // 관리자 상태를 가져옴
+
     let LottoValbytes = await stub.getState(Lotto);
-    // 관리자 상태가 없으면 오류 발생
-    if (!LottoValbytes) {
-      throw new Error('Failed to get state of asset Admin');
+    if (!LottoValbytes || LottoValbytes.length === 0) {
+      throw new Error('Failed to get state of asset Lotto');
     }
-    // 관리자 값을 정수로 변환 (오류 수정 필요)
     let LottoVal = parseInt(LottoValbytes.toString());
-  
-    // 금액이 숫자가 아니면 오류 발생
-    if (isNaN(amount)) {
-      throw new Error('Expecting integer value for amount to be transferred');
+
+    let ParticipantsBytes = await stub.getState("participants");
+    let participants = [];
+    if (ParticipantsBytes && ParticipantsBytes.length > 0) {
+      participants = JSON.parse(ParticipantsBytes.toString());
     }
-  
-    Aval -= 100
-    Lotto += 100
-  
-    // 자산 상태 로그 출력
+
+    if (Aval < 100) {
+      throw new Error('Insufficient points to participate in the lotto');
+    }
+
+    Aval -= 100;
+    LottoVal += 100;
+    participants.push(A);
+
     console.info(util.format('Aval = %d, LottoVal = %d\n', Aval, LottoVal));
-  
-    // 자산 소유자 A의 상태 업데이트
-    await stub.putState(A, Buffer.from(A.toString()));
-    // 관리자 상태 업데이트
+    console.info('Participants:', participants);
+
+    await stub.putState(A, Buffer.from(Aval.toString()));
     await stub.putState(Lotto, Buffer.from(LottoVal.toString()));
+    await stub.putState("participants", Buffer.from(JSON.stringify(participants)));
+  }
+
+  async drawLotto(stub, args) {
+    let Lotto = "lotto";
+    let Participants = "participants";
+
+    let LottoValbytes = await stub.getState(Lotto);
+    if (!LottoValbytes || LottoValbytes.length === 0) {
+      throw new Error('Failed to get state of asset Lotto');
+    }
+    let LottoVal = parseInt(LottoValbytes.toString());
+
+    let ParticipantsBytes = await stub.getState(Participants);
+    if (!ParticipantsBytes || ParticipantsBytes.length === 0) {
+      throw new Error('No participants in the lotto');
+    }
+    let participants = JSON.parse(ParticipantsBytes.toString());
+    if (participants.length === 0) {
+      throw new Error('No participants in the lotto');
+    }
+
+    let winnerIndex = Math.floor(Math.random() * participants.length);
+    let winner = participants[winnerIndex];
+
+    let WinnerValbytes = await stub.getState(winner);
+    if (!WinnerValbytes || WinnerValbytes.length === 0) {
+      throw new Error('Failed to get state of asset holder winner');
+    }
+    let WinnerVal = parseInt(WinnerValbytes.toString());
+
+    WinnerVal += LottoVal;
+    LottoVal = 0;
+    participants = [];
+
+    console.info(util.format('Winner = %s, WinnerVal = %d\n', winner, WinnerVal));
+    console.info('Participants:', participants);
+
+    await stub.putState(winner, Buffer.from(WinnerVal.toString()));
+    await stub.putState(Lotto, Buffer.from(LottoVal.toString()));
+    await stub.putState(Participants, Buffer.from(JSON.stringify([])));
+  }
+
+  //-----------------------------------------------------------------------------query all
+  async query(stub, args) {
+    if (args.length != 0) {
+      throw new Error('Incorrect number of arguments. Expecting no arguments');
+    }
+
+    let startKey = '';
+    let endKey = '';
+    let iterator = await stub.getStateByRange(startKey, endKey);
+    let allResults = [];
+    while (true) {
+      let res = await iterator.next();
+      if (res.value && res.value.value.toString()) {
+        let jsonRes = {};
+        jsonRes.Key = res.value.key;
+        try {
+          jsonRes.Record = JSON.parse(res.value.value.toString());
+        } catch (err) {
+          jsonRes.Record = res.value.value.toString();
+        }
+        allResults.push(jsonRes);
+      }
+      if (res.done) {
+        await iterator.close();
+        break;
+      }
+    }
+    console.info('Query Response:');
+    console.info(allResults);
+    return Buffer.from(JSON.stringify(allResults));
   }
 };
 

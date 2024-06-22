@@ -42,7 +42,17 @@ app.get('/payment', function (req, res) {
 app.get('/lotto', function (req, res) {
    let user = req.query.user;
    let args = [user];
-   sdk.send(false, 'lotto', args, res);
+   try {
+       sdk.send(false, 'lotto', args, res);
+   } catch (error) {
+       res.status(500).send('Failed to invoke chaincode: ' + error.message);
+   }
+});
+app.get('/drawLotto', function (req, res) {
+   sdk.send(false, 'drawLotto', [], res);
+});
+app.get('/queryAll', function (req, res) {
+   sdk.send(false, 'query', [], res);
 });
  
 
