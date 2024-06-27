@@ -1,64 +1,43 @@
-// fabric-shim 모듈을 불러옴 (Hyperledger Fabric 체인코드 라이브러리)
 const shim = require('fabric-shim');
-
-// util 모듈을 불러옴 (유틸리티 기능 제공)
 const util = require('util');
 
-// ABstore 클래스 선언
 const ABstore = class {
 
-  // Init 함수는 체인코드 초기화를 담당
   async Init(stub) {
-    // 초기화 시작 로그 출력
     console.info('========= ABstore Init =========');
-    // 함수와 파라미터를 가져옴
     let ret = stub.getFunctionAndParameters();
-    // 함수와 파라미터 출력
     console.info(ret);
     try {
-      // "admin" 키를 "0" 값으로 상태에 저장
       await stub.putState("admin", Buffer.from("0"));
       await stub.putState("lotto", Buffer.from("0"));
-      // 성공 반환
       return shim.success();
     } catch (err) {
-      // 오류 발생 시 오류 반환
       return shim.error(err);
     }
   }
 
-  // Invoke 함수는 체인코드의 비즈니스 로직을 처리
   async Invoke(stub) {
-    // 함수와 파라미터를 가져옴
     let ret = stub.getFunctionAndParameters();
-    // 함수와 파라미터 출력
     console.info(ret);
-    // 호출할 함수 이름으로 메서드 선택
     let method = this[ret.fcn];
-    // 메서드가 없을 경우 로그 출력 후 성공 반환
     if (!method) {
       console.log('no method of name:' + ret.fcn + ' found');
       return shim.success();
     }
     try {
-      // 선택된 메서드 호출 및 페이로드 반환
       let payload = await method(stub, ret.params);
-      // 성공 반환
       return shim.success(payload);
     } catch (err) {
-      // 오류 발생 시 로그 출력 후 오류 반환
       console.log(err);
       return shim.error(err);
     }
   }
 //-----------------------------------------------------------------------------------회원가입(추천인 서비스 추가해야함)
-  // init 함수는 자산 초기화를 담당
   async init(stub, args) {
     if (args.length != 1) {
       return shim.error('Incorrect number of arguments. Expecting 2');
     }
 
-    // 첫 번째 인자를 자산 소유자 A로 설정
     let A = args[0];
     await stub.putState(A, Buffer.from("5000"));
   }
@@ -74,122 +53,84 @@ const ABstore = class {
     if (!Recommender || !Me) {
       throw new Error('Asset holding must not be empty');
     }
-  
-    // Fetch the state for 'Me'
+
     let Mevalbytes = await stub.getState(Me);
     if (!Mevalbytes) {
       throw new Error('Failed to get state of asset holder Me');
     }
     let Meval = parseInt(Mevalbytes.toString());
   
-    // Check if Me has already recommended someone
     let MeRecommendKey = 'recommended_by_' + Me;
     let MeRecommendBytes = await stub.getState(MeRecommendKey);
     if (MeRecommendBytes && MeRecommendBytes.length > 0) {
       throw new Error('This user has already recommended someone.');
     }
   
-    // Fetch the state for 'Recommender'
     let Recommendervalbytes = await stub.getState(Recommender);
     if (!Recommendervalbytes) {
       throw new Error('Failed to get state of asset holder Recommender');
     }
     let Recommenderval = parseInt(Recommendervalbytes.toString());
   
-    // Update the balances
     Meval += 500;
     Recommenderval += 1000;
   
-    // Store the updated balances
     await stub.putState(Me, Buffer.from(Meval.toString()));
     await stub.putState(Recommender, Buffer.from(Recommenderval.toString()));
-  
-    // Store the information that Me has recommended someone
     await stub.putState(MeRecommendKey, Buffer.from(Recommender));
   }
 
 //-----------------------------------------------------------------------------------포인트 거래
-  // invoke 함수는 자산 이전을 담당
   async gift(stub, args) {
-    // 인자 개수가 3개가 아니면 오류 발생
     if (args.length != 3) {
       throw new Error('Incorrect number of arguments. Expecting 3');
     }
 
-    // 첫 번째 인자를 자산 소유자 A로 설정
     let A = args[0];
-    // 두 번째 인자를 자산 소유자 B로 설정
     let B = args[1];
-    // 관리자 키 설정
     let Admin = "admin";
-    // 자산 소유자 A 또는 B가 비어있으면 오류 발생
     if (!A || !B) {
       throw new Error('asset holding must not be empty');
     }
 
-    // 자산 소유자 A의 상태를 가져옴
     let Avalbytes = await stub.getState(A);
-    // 자산 소유자 A의 상태가 없으면 오류 발생
     if (!Avalbytes) {
       throw new Error('Failed to get state of asset holder A');
     }
-    // 자산 소유자 A의 값을 정수로 변환
     let Aval = parseInt(Avalbytes.toString());
 
-    // 자산 소유자 B의 상태를 가져옴
     let Bvalbytes = await stub.getState(B);
-    // 자산 소유자 B의 상태가 없으면 오류 발생
     if (!Bvalbytes) {
       throw new Error('Failed to get state of asset holder B');
     }
-    // 자산 소유자 B의 값을 정수로 변환
     let Bval = parseInt(Bvalbytes.toString());
 
-    // 관리자 상태를 가져옴
     let AdminValbytes = await stub.getState(Admin);
-    // 관리자 상태가 없으면 오류 발생
     if (!AdminValbytes) {
       throw new Error('Failed to get state of asset Admin');
     }
-
-    // 관리자 값을 정수로 변환 (오류 수정 필요)
     let AdminVal = parseInt(AdminValbytes.toString());
 
-    // 이전할 금액을 정수로 변환
     let amount = parseInt(args[2]);
-    // 금액이 숫자가 아니면 오류 발생
     if (isNaN(amount)) {
       throw new Error('Expecting integer value for amount to be transferred');
     }
 
-    // 자산 소유자 A의 자산 감소
     Aval -= amount;
-    // 자산 소유자 B의 자산 증가 (수수료 제외)
     Bval += amount - ( amount * 0.05 );
-    // 관리자 자산 증가 (수수료)
     AdminVal += ( amount * 0.05 );
-    // 자산 상태 로그 출력
     console.info(util.format('Aval = %d, Bval = %d, AdminVal = %d\n', Aval, Bval, AdminVal));
 
-    // 자산 소유자 A의 상태 업데이트
     await stub.putState(A, Buffer.from(Aval.toString()));
-    // 자산 소유자 B의 상태 업데이트
     await stub.putState(B, Buffer.from(Bval.toString()));
-    // 관리자 상태 업데이트
     await stub.putState(Admin, Buffer.from(AdminVal.toString()));
   }
 //-----------------------------------------------------------------------------------유저 삭제
-  // delete 함수는 자산 상태 삭제를 담당
   async delete(stub, args) {
-    // 인자 개수가 1개가 아니면 오류 발생
     if (args.length != 1) {
       throw new Error('Incorrect number of arguments. Expecting 1');
     }
-
-    // 첫 번째 인자를 자산 소유자 A로 설정
     let A = args[0];
-
-    // 자산 소유자 A의 상태 삭제
     await stub.deleteState(A);
   }
 //-----------------------------------------------------------------------------------조회(전체조회로 수정해야함)
