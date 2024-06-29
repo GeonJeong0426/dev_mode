@@ -114,6 +114,9 @@ const ABstore = class {
     if (isNaN(amount)) {
       throw new Error('Expecting integer value for amount to be transferred');
     }
+    if (Aval < amount) {
+      throw new Error('Transaction not possible due to lack of points');
+    }
 
     Aval -= amount;
     Bval += amount - ( amount * 0.05 );
