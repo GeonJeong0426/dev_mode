@@ -2,7 +2,6 @@ const shim = require('fabric-shim');
 const util = require('util');
 
 const ABstore = class {
-
   async Init(stub) {
     console.info('========= ABstore Init =========');
     let ret = stub.getFunctionAndParameters();
@@ -53,7 +52,7 @@ const ABstore = class {
     if (!Recommender || !Me) {
       throw new Error('Asset holding must not be empty');
     }
-
+  
     let Mevalbytes = await stub.getState(Me);
     if (!Mevalbytes) {
       throw new Error('Failed to get state of asset holder Me');
@@ -130,37 +129,11 @@ const ABstore = class {
     if (args.length != 1) {
       throw new Error('Incorrect number of arguments. Expecting 1');
     }
+
     let A = args[0];
     await stub.deleteState(A);
   }
-//-----------------------------------------------------------------------------------조회(전체조회로 수정해야함)
-  // async query(stub, args) {
-  //   if (args.length != 1) {
-  //     throw new Error('Incorrect number of arguments. Expecting name of the person to query');
-  //   }
-
-  //   let jsonResp = {};
-  //   let A = args[0];
-
-  //   try {
-  //     let Avalbytes = await stub.getState(A);
-  //     if (!Avalbytes || Avalbytes.length === 0) {
-  //       jsonResp.error = 'Failed to get state for ' + A;
-  //       throw new Error(JSON.stringify(jsonResp));
-  //     }
-
-  //     jsonResp.name = A;
-  //     jsonResp.amount = Avalbytes.toString('utf8');
-  //     console.info('Query Response:');
-  //     console.info(jsonResp);
-
-  //     return Buffer.from(JSON.stringify(jsonResp));
-  //   } catch (err) {
-  //     console.error('Error in query:', err);
-  //     throw new Error('Error in query function: ' + err.message);
-  //   }
-  // }
-    //-----------------------------------------------------------------------------------결제
+//-----------------------------------------------------------------------------------결제
   async payment(stub, args) {
     if (args.length != 3) {
       throw new Error('Incorrect number of arguments. Expecting 3');
