@@ -130,7 +130,7 @@
 
 
 ### 📦 설치 방법
-⚡ 우분투 환경의 IP를 확인하여 코드 수정 후 진행<br/>
+⚡ 우분투 환경의 IP를 확인하여 코드 수정 후 진행<br/><br/>
 우분투 환경에서 서버 설치<br/>
 
 ```sh
@@ -162,3 +162,6 @@ npm install
 npm start
 ```
 
+## 🏰Client, Server repository
+<a href="https://github.com/hkyuuu00/reward5-api-server">Client</a></br>
+<a href="https://github.com/hkyuuu00/dev-mode">Server</a>
