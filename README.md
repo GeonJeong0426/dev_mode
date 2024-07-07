@@ -130,7 +130,8 @@
 
 
 ### 📦 설치 방법
-우분투 환경에서 설치<br/>
+⚡ 우분투 환경의 IP를 확인하여 코드 수정 후 진행<br/>
+우분투 환경에서 서버 설치<br/>
 
 ```sh
 // 하이퍼레저 패브릭 샘플 및 바이너리 다운로드
@@ -150,3 +151,14 @@ cd $GOPATH/src/dev-mode
 ./network.sh dev
 ./network.sh installCC dev abstore
 ./network.sh startSDK
+```
+
+윈도우 환경에서 클라이언트 설치<br/>
+
+```sh
+git clone https://github.com/hkyuuu00/reward5-api-server.git
+cd reward5-api-server
+npm install
+npm start
+```
+
