@@ -29,23 +29,47 @@
 ### 💻 기술 스택
 - **OS:** &nbsp;&nbsp;![Windows 11](https://img.shields.io/badge/Windows%2011-%230079d5.svg?style=for-the-badge&logo=Windows%2011&logoColor=white) ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 - **Container 배포:** &nbsp;&nbsp;![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-- **FrameWork:** &nbsp;&nbsp;![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB )![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+- **FrameWork:** &nbsp;&nbsp;![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB ) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 - **Style:** &nbsp;&nbsp;![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 - **Language:** &nbsp;&nbsp;![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 - **Tools:** &nbsp;&nbsp;![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-
+<br/><br/>
 
 
 ### ✨ 주요 기능 및 이미지
-<img width=100% src="https://github.com/hkyuuu00/SeoulParkingInfo/assets/155419559/556904cf-3956-4ba7-be36-c455b27c66cb"><br/><br/>
-- **검색:** 검색창에 자치구를 검색 (ex. 강남구), 입력값이 없이 검색하면 전체 주차장 검색<br/>
-- **조회:** 주차장 이름과 주소, 현재 주차장의 실시간 데이터를 리스트로 구현<br/>
-- **상세정보:** 주차장 이름을 클릭하여 주차장 상세정보 팝업창을 띄울 수 있음<br/><br/><br/>
+📌 Home<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/4899a646-3abc-4837-927d-1002c53329a8"><br/><br/>
+- **메뉴바:** 로고와 각종 기능들을 이용할 수 있는 메뉴 바 구현<br/>
+- **광고:** 사용자에게 어떻게 사용하는지와 사용하고 싶도록 디자인 구현<br/><br/><br/>
 
+📌 Account<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/fdde5d9a-15d8-42d1-8b95-5ffbbf8e6cb2"><br/><br/>
+- **회원가입:** ID를 입력하여 회원가입을 진행, 회원가입 시 5000포인트를 적립되며 중복 ID 불가<br/>
+- **추천인 등록:** 추천인을 등록할 수 있으며 추천을 한 사람에게는 500포인트, 받은 사람에게는 1000포인트를 적립, 추천은 계정 당 1회만 가능<br/>
+- **회원탈퇴:** ID를 입력하여 회원탈퇴를 진행, 회원탈퇴 시 적립 포인트 모두 삭제<br/><br/><br/>
 
-<img width=100% src="https://github.com/hkyuuu00/SeoulParkingInfo/assets/155419559/3ca54a54-9cb3-459d-8bf6-d93c9a3e081b"><br/><br/>
-- **위치정보:** 해당 주차장의 위치정보를 지도를 통해 확인<br/>
-- **상세정보:** 요일별 운영 시간과 시간별 금액을 확인할 수 있으며, 실시간 주차 공간을 확인 가능<br/><br/><br/>
+📌 Payment<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/b6e8f7ee-7434-4747-a936-cbadc07402ab"><br/><br/>
+- **결제:** 본인의 ID를 입력하고 결제할 가격과 사용할 포인트 입력 (사용하지 않을 시에는 0 입력)<br/>
+- **포인트 적립:** 사용자가 결제 진행 후 결제한 가격의 1% 포인트 적립<br/>
+- **관리자 수수료:** 결제한 가격의 2% 수수료를 징수<br/><br/><br/>
+
+📌 Send<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/fe2fd520-fee9-4f44-8473-cdeac31fc851"><br/><br/>
+- **포인트 선물:** 보내는 유저와 받는 유저의 ID를 입력 후 선물 포인트 입력 후 버튼을 누르면 5% 수수료를 빼고 받는 유저에게 지급<br/>
+- **관리자 수수료:** 선물 포인트의 5% 수수료를 징수<br/><br/><br/>
+
+📌 Event<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/a1237384-a054-4589-a2ba-5a715ca32427"><br/><br/>
+- **로또 참여:** 유저 ID를 입력하여 참여, 입력한 유저는 100포인트를 차감하고 Lotto 총 금액에 추가, 로또 당첨 시 Lotto 총 금액에 대한 포인트를 받음<br/>
+- **회원정보 및 Lotto 금액:** 유저들이 서비스를 이용하면서 자신의 포인트와 로또 금액을 볼 수 있도록 구현<br/><br/><br/>
+
+📌 일별 지출 확인<br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/074ea8f0-270b-4e14-a45d-021895b1e2b0"><br/><br/>
+- **비밀번호 입력:** 관리자 페이지이기에 다른 유저가 들어오지 못하도록 패스워드 입력 후 접근 가능<br/>
+- **수수료 조회:** 관리자가 징수한 수수료를 확인할 수 있도록 구현<br/>
+- **로또 이벤트 참여자 조회:** 로또의 참여자 명단을 기록하도록 구현<br/>
+- **로또 추첨 버튼:** 로또를 추첨하여 당첨된 유저에게 Lotto 총 금액에 모인 포인트 지급, 로또는 랜덤으로 당첨<br/><br/><br/>
 
 
 ### 🛠 문제 해결 과정
