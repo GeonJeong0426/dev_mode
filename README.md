@@ -1,4 +1,4 @@
-<img width=100% src="(https://github.com/hkyuuu00/dev-mode/assets/155419559/50824e8a-a125-4a48-aaad-b40ea2d8ffa5">
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/50824e8a-a125-4a48-aaad-b40ea2d8ffa5">
 
 # REWARD5 포인트 적립 서비스
 
