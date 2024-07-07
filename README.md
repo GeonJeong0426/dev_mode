@@ -3,27 +3,36 @@
 # REWARD5 포인트 적립 서비스
 
 ### 📖 프로젝트 개요
-하이퍼레저 패브릭 환경에서 블록체인을 통한 포인트 적립 서비스<br/>
-결제할 때에 포인트를 적립시켜주며 
+블록체인 기술을 사용하여 포인트 적립 및 사용 서비스를 만들면 거래 내역과 사용 내역들이 기록에 남는다는 점이 매력이 있어 계획.
+<br/><br/>
 
 ### 🚀 프로젝트 목표
-서울시 시영 주차장 API를 활용하여 실시간으로 주차장의 공간을 조회할 수 있는 서비스를 구현.
-
+- 체인코드를 통해 회원가입, 추천인 등록, 결제 및 적립, 포인트 거래, 이벤트 등을 구현
+- 클라이언트를 REACT 프레임워크를 사용하고 REST API를 통한 API 통신
+- API 통신을 통해 가져온 데이터를 프론트에서 보여주도록 설계
+<br/><br/><br/>
 
 ## 📝 프로젝트 설명
 
-### 💼 기능
-서울시 주차장 실시간 검색 서비스는 서울시의 자치구를 검색하여 주차장의 위치정보를 지도로 보여주고 가격, 운영시간, 실시간으로 주차공간을 확인할 수 있는 서비스
+### 💼 REWARD5의 기능
+1. 회원가입과 추천인 등록을 통한 포인트 적립
+2. 결제를 통한 포인트 적립
+3. 유저 간 포인트 거래 기능
+4. 로또 이벤트를 통한 재미 제공
+5. 한눈에 보이는 포인트 잔액 정보 확인
+<br/><br/>
 
 ### 🗺 기술 설계도
-<img width=100% src="https://github.com/hkyuuu00/SeoulParkingInfo/assets/155419559/dc7e6151-85b8-4609-882f-42196a4cd5bc"><br/><br/>
+<img width=100% src="https://github.com/hkyuuu00/dev-mode/assets/155419559/8a3e72d4-6a70-4e77-81ae-8edb312e9728"><br/><br/>
 
 
 ### 💻 기술 스택
-- **FrameWork:** `SpringBoot`
-- **Front-End:** `HTML` `CSS` `JavaScript`
-- **Back-End:** `Java`
-- **Tools:** `Intellij IDEA`
+- **OS:** &nbsp;&nbsp;![Windows 11](https://img.shields.io/badge/Windows%2011-%230079d5.svg?style=for-the-badge&logo=Windows%2011&logoColor=white)![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+- **Container 배포:** &nbsp;&nbsp;![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+- **FrameWork:** &nbsp;&nbsp;![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+- **Style:** &nbsp;&nbsp;![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+- **Language:** &nbsp;&nbsp;![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+- **Tools:** &nbsp;&nbsp;![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
 
 
