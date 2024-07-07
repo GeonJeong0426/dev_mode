@@ -111,35 +111,42 @@
     <td>해결</td>
     <td>해당 데이터를 모두 받아 Json으로 파싱 후 Key, Value 값을 호출하여 출력</td>
   </tr>
-</table><br/><br/>
+</table><br/><br/><br/><br/>
 
 ## ⚙️ 프로젝트 설치 및 실행 방법
 
 ### 📝 Prerequisites
-- Node.js 14.x 이상
-- Docker 20.x 이상
-cURL
-도커Docker Community Edition CE 23.0.6
-도커 Compose 1.27.4 이상
-Go 언어 1.16.7
-Git 2.9.x 이상
-Python 2.7.17
-Node.js 12.13.1(https://nodejs.org/)
-npm 5.6.0
-VSCode v1.28
-
-버추얼박스 VirtualBox 6.1
-
-우분투 Ubuntu 22.04.x
-
-cd ~/go/src
-curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.2.2 1.4.9
+- Oracle VM VirtualBox 6.1
+- Ubuntu 22.04.x
+- cURL
+- Docker Community Edition CE 23.0.6
+- Docker Compose 1.27.4 이상
+- Go 1.16.7
+- Git 2.9.x 이상
+- Python 2.7.17
+- Node.js 12.13.1
+- npm 5.6.0
+- VSCode v1.28
 
 
 ### 📦 설치 방법
-프로젝트를 로컬에 설치하는 방법을 단계별로 설명합니다.
+우분투 환경에서 설치<br/>
 
 ```sh
-git clone https://github.com/your-username/your-project.git
-cd your-project
-npm install
+// 하이퍼레저 패브릭 샘플 및 바이너리 다운로드
+cd ~/go/src
+curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.2.2 1.4.9
+
+// 프로젝트 다운
+cd $GOPATH/src/
+rm -rf dev-mode
+git clone https://github.com/hkyuuu00/dev-mode.git
+cd $GOPATH/src/dev-mode/basic-network
+cp -r $GOPATH/src/fabric-samples/bin/ ./
+
+// 체인코드 인증서 발급 및 설치, 서버 실행
+cd $GOPATH/src/dev-mode
+./network.sh clean
+./network.sh dev
+./network.sh installCC dev abstore
+./network.sh startSDK
